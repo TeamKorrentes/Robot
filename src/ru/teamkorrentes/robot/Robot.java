@@ -28,7 +28,7 @@ public class Robot {
      */
     public Robot(Point position){
         this.direction = TOP;
-        this.position = position;
+        this.position = new Point(position.getX(), position.getY());
     }
 
     /**
@@ -39,7 +39,7 @@ public class Robot {
      */
     public Robot(Direction direction, Point position){
         this.direction = direction;
-        this.position = position;
+        this.position = new Point(position.getX(), position.getY());
     }
 
     /**
