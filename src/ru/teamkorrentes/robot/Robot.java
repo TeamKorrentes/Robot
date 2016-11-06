@@ -1,7 +1,5 @@
 package ru.teamkorrentes.robot;
 
-import static ru.teamkorrentes.robot.Direction.*;
-
 /**
  * Класс для управления роботом.
  *
@@ -16,7 +14,7 @@ public class Robot {
      * Констукртор по умолчанию, который задаёт точку (0, 0) и направление взгляда - вверх.
      */
     public Robot(){
-        this.direction = TOP;
+        this.direction = Direction.TOP;
         this.position = new Point(0, 0);
     }
 
@@ -27,7 +25,7 @@ public class Robot {
      * @param position Позиция в пространстве. Класс Point
      */
     public Robot(Point position){
-        this.direction = TOP;
+        this.direction = Direction.TOP;
         this.position = new Point(position.getX(), position.getY());
     }
 
@@ -48,16 +46,16 @@ public class Robot {
     public void turnLeft(){
         switch (this.direction){
             case TOP:
-                this.direction = LEFT;
+                this.direction = Direction.LEFT;
                 break;
             case LEFT:
-                this.direction = BOTTOM;
+                this.direction = Direction.BOTTOM;
                 break;
             case BOTTOM:
-                this.direction = RIGHT;
+                this.direction = Direction.RIGHT;
                 break;
             case RIGHT:
-                this.direction = TOP;
+                this.direction = Direction.TOP;
                 break;
         }
     }
@@ -68,16 +66,16 @@ public class Robot {
     public void turnRight(){
         switch (this.direction){
             case TOP:
-                this.direction = RIGHT;
+                this.direction = Direction.RIGHT;
                 break;
             case RIGHT:
-                this.direction = BOTTOM;
+                this.direction = Direction.BOTTOM;
                 break;
             case BOTTOM:
-                this.direction = LEFT;
+                this.direction = Direction.LEFT;
                 break;
             case LEFT:
-                this.direction = TOP;
+                this.direction = Direction.TOP;
                 break;
         }
     }
@@ -101,6 +99,8 @@ public class Robot {
                 position.setX(position.getX() + 1);
                 break;
         }
+
+        Demo.writer.println("Робот переместился на координаты: " + position.toString());
     }
 
     /**
@@ -126,6 +126,8 @@ public class Robot {
                 position.setX(position.getX() + change);
                 break;
         }
+
+        Demo.writer.println("Робот переместился на координаты: " + position.toString());
     }
 
     /**
@@ -134,7 +136,7 @@ public class Robot {
      * @param end Конечная точка типа Point
      */
     public void move(Point end){
-        //Двигаем робота по иксу
+        //Двигаем робота по x
         if(position.getX() < end.getX()){
             //Поварачиваем робота в нужную нам сторону (Право)
             switch (direction){
@@ -185,7 +187,7 @@ public class Robot {
             }
         }
 
-        //Двигаем робота по игреку
+        //Двигаем робота по y
         if(position.getY() < end.getY()){
             //Поварачиваем робота в нужную нам сторону (Вверх)
             switch (direction){
