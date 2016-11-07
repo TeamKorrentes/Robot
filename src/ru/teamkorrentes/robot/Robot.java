@@ -1,7 +1,12 @@
 package ru.teamkorrentes.robot;
 
 /**
- * Класс для управления роботом.
+ * Класс для управления роботом, позволяющий:
+ * <ul>
+ *     <li>Инициализировать робота</li>
+ *     <li>Повернуть его вправо</li>
+ *     <li>Повернуть его влево</li>
+ * </ul>
  *
  * @author Глазунов А. С.
  */
@@ -11,7 +16,9 @@ public class Robot {
     private Point position;
 
     /**
-     * Констукртор по умолчанию, который задаёт точку (0, 0) и направление взгляда - вверх.
+     * Констукртор без параметров.
+     * Задаёт начальную точку ({@link Point}) x = 0, y = 0
+     * и направление взгляда ({@link Direction}) - вверх.
      */
     public Robot(){
         this.direction = Direction.TOP;
@@ -19,10 +26,10 @@ public class Robot {
     }
 
     /**
-     * Конструктор с двумя параметрами, позволяющий задать позицию.
-     * Направление используется из конструктора по умолчанию.
+     * Конструктор с одним параметром, позволяющий задать начанльные координаты.
+     * Направление задаётся такое же, как и в констукторе без параметров (вверх).
      *
-     * @param position Позиция в пространстве. Класс Point
+     * @param position начальные координаты робота. {@link Point}
      */
     public Robot(Point position){
         this.direction = Direction.TOP;
@@ -30,10 +37,11 @@ public class Robot {
     }
 
     /**
-     * Конструктор с двумя параметрами, позволяющий задать направление и позицию.
+     * Конструктор с двумя параметрами, позволяющий задать начанльные координаты
+     * и направление взгляда робота.
      *
-     * @param direction Направление. Enum Direction
-     * @param position Позиция в пространстве. Класс Point
+     * @param direction взгляд робота. {@link Direction}
+     * @param position начальные координаты робота. {@link Point}
      */
     public Robot(Direction direction, Point position){
         this.direction = direction;
@@ -41,7 +49,7 @@ public class Robot {
     }
 
     /**
-     * Метод для изменения стороны, куда смотрит робот, в левую сторону.
+     * Метод для поворота взгляда робота в левую сторону.
      */
     public void turnLeft(){
         switch (this.direction){
@@ -61,7 +69,7 @@ public class Robot {
     }
 
     /**
-     * Метод для изменения стороны, куда смотрит робот, в правую сторону.
+     * Метод для поворота взгляда робота в правую сторону.
      */
     public void turnRight(){
         switch (this.direction){
@@ -82,9 +90,10 @@ public class Robot {
 
 
     /**
-     * Функция для шага робота. Двигается на 1 в направлении, который указан в классе
+     * Метод для шага робота.
+     * Передвигает робота на одну координату в направлении его взгляда.
      */
-    public void walk(){
+    public void step(){
         switch (this.direction){
             case TOP:
                 position.setY(position.getY() + 1);
@@ -99,156 +108,31 @@ public class Robot {
                 position.setX(position.getX() + 1);
                 break;
         }
-
-        Demo.writer.println("Робот переместился на координаты: " + position.toString());
     }
 
     /**
-     * Функция для шага робота. Двигается на указанное кол-во шагов в направлении, который указан в классе.
-     * Работает только для маленьких шагов (0 < x < 1). Если аргумент больше единицы - ничего не происходит.
+     * Возвращает текущие координаты робота.
      *
-     * @param change Длина шага (0 < x < 1)
+     * @return координаты робота в виде класса {@link Point}
      */
-    public void walk(double change){
-        if(change <= 0 && change >= 1) return;
-
-        switch (this.direction){
-            case TOP:
-                position.setY(position.getY() + change);
-                break;
-            case LEFT:
-                position.setX(position.getX() - change);
-                break;
-            case BOTTOM:
-                position.setY(position.getY() - change);
-                break;
-            case RIGHT:
-                position.setX(position.getX() + change);
-                break;
-        }
-
-        Demo.writer.println("Робот переместился на координаты: " + position.toString());
-    }
-
-    /**
-     * Метод для перемещения робота
-     *
-     * @param end Конечная точка типа Point
-     */
-    public void move(Point end){
-        //Двигаем робота по x
-        if(position.getX() < end.getX()){
-            //Поварачиваем робота в нужную нам сторону (Право)
-            switch (direction){
-                case TOP:
-                    turnRight();
-                    break;
-                case LEFT:
-                    turnRight();
-                    turnRight();
-                    break;
-                case BOTTOM:
-                    turnLeft();
-                    break;
-            }
-
-            //Двигаем его в повёрнутом направлении.
-            while(position.getX() < end.getX()){
-                walk();
-            }
-            if(position.getX() != end.getX()){
-                turnRight();
-                turnRight();
-                walk(Math.abs(end.getX() - position.getX()));
-            }
-        } else {
-            //Поварачиваем робота в нужную нам сторону (Лево)
-            switch (direction){
-                case TOP:
-                    turnLeft();
-                    break;
-                case RIGHT:
-                    turnRight();
-                    turnRight();
-                    break;
-                case BOTTOM:
-                    turnRight();
-                    break;
-            }
-
-            //Двигаем его в повёрнутом направлении.
-            while(position.getX() > end.getX()){
-                walk();
-            }
-            if(position.getX() != end.getX()){
-                turnRight();
-                turnRight();
-                walk(Math.abs(end.getX() - position.getX()));
-            }
-        }
-
-        //Двигаем робота по y
-        if(position.getY() < end.getY()){
-            //Поварачиваем робота в нужную нам сторону (Вверх)
-            switch (direction){
-                case LEFT:
-                    turnRight();
-                    break;
-                case RIGHT:
-                    turnLeft();
-                    break;
-                case BOTTOM:
-                    turnLeft();
-                    turnLeft();
-                    break;
-            }
-
-            //Двигаем его в повёрнутом направлении.
-            while(position.getY() < end.getY()){
-                walk();
-            }
-            if(position.getY() != end.getY()){
-                turnRight();
-                turnRight();
-                walk(Math.abs(end.getY() - position.getY()));
-            }
-        } else {
-            //Поварачиваем робота в нужную нам сторону (Вниз)
-            switch (direction){
-                case TOP:
-                    turnLeft();
-                    turnLeft();
-                    break;
-                case RIGHT:
-                    turnRight();
-                    break;
-                case LEFT:
-                    turnLeft();
-                    break;
-            }
-
-            //Двигаем его в повёрнутом направлении.
-            while(position.getY() > end.getY()){
-                walk();
-            }
-            if(position.getY() != end.getY()){
-                turnRight();
-                turnRight();
-                walk(Math.abs(end.getY() - position.getY()));
-            }
-        }
-
-    }
-
     public Point getPosition(){
         return this.position;
     }
 
+    /**
+     * Возвращает текущее направление взгляда робота.
+     *
+     * @return направление взгляда в виде одного из перечислений {@link Direction}
+     */
     public Direction getDirection(){
         return this.direction;
     }
 
-    @Override
+    /**
+     * Возвращает строку с информацией о роботе.
+     *
+     * @return текущие координаты(х, у) и направление взгляда робота.
+     */
     public String toString() {
         return "Робот находится в координатах " + position.toString() + " и смотрит в направлении \"" + direction.toString() + "\".";
     }
