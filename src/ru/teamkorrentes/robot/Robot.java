@@ -23,7 +23,7 @@ public class Robot {
      */
     public Robot(){
         this.direction = Direction.TOP;
-        this.position = new Point(0, 0);
+        this.position = new Point();
     }
 
     /**
