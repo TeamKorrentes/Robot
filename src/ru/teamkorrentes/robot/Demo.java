@@ -5,7 +5,10 @@ import java.io.PrintWriter;
 
 
 /**
- * Created by Алёха on 30.10.2016.
+ * Демонстрационный класс. Демонстрирует движения робота и метода поворота.
+ * Вводит все в заданный файл.
+ *
+ * @author Першин С.А , Манчин А.С.
  */
 public class Demo {
     public static PrintWriter writer;
